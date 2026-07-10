@@ -1,18 +1,23 @@
+import { useState, useEffect } from "react";
 import "./App.css";
+import axios from "axios";
 
 function App() {
-  const boards = [
-    { name: "platform launch", id: 1 },
-    { name: "marketing plan", id: 2 },
-    { name: "roadmap", id: 3 },
-  ];
+  const [boards, setBoards] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/boards").then((response) => {
+      setBoards(response.data);
+    });
+  }, []);
+
   console.log(boards, "banana");
-  return(
+
+  return (
     <>
-    {boards.map((board) =>
-     <><div key={board.id}>{board.name} {board.id}</div></> 
-    )}
-    </>) 
+      {boards.map((board) => board.name)}
+    </>
+  );
 }
 
 export default App;
