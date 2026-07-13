@@ -51,8 +51,6 @@ function App() {
   const doing = columns[1].tasks.map((doing) => doing.title);
   const done = columns[2].tasks.map((done) => done.title);
 
-
-
   return (
     <>
       <form onSubmit={addBoard}>
