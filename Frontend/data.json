@@ -428,8 +428,11 @@
         }
       ],
       "id": "3NeCYcLmMGA"
+    },
+    {
+      "name": "a new board",
+      "id": "KPWVRdvg824"
     }
-
   ],
   "$schema": "./node_modules/json-server/schema.json"
 }

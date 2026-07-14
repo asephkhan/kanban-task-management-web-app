@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import logo from "./assets/logo-dark.svg";
+import Button from "./components/ButtonComponent/Button";
 
 function App() {
   const [boards, setBoards] = useState([]);
   const [newBoard, setNewBoard] = useState("a new board");
   const [selectedBoard, setSelectedboard] = useState(null);
+  const [newColumn, setNewColumn] = useState("a new column");
 
   const addBoard = (e) => {
     e.preventDefault();
-    console.log("button clicked", e.target);
     const boardObj = {
       name: newBoard,
     };
@@ -20,8 +21,29 @@ function App() {
     });
   };
 
+  const addColumn = (e, boardId) => {
+    //    e.preventDefault()
+    const currentBoard = boards.find((board) => board.id === boardId);
+
+    const columnObj = {
+      name: newColumn,
+    };
+
+    const updatedColumns = [...currentBoard.columns, columnObj];
+
+    axios
+      .patch(`http://localhost:3001/boards/${boardId}`, {
+        columns: updatedColumns,
+      })
+      .then(response);
+  };
+
   const handleBoardChange = (e) => {
     setNewBoard(e.target.value);
+  };
+
+  const handleColumnChange = (e) => {
+    setNewColumn(e.target.value);
   };
 
   useEffect(() => {
@@ -34,7 +56,9 @@ function App() {
     return (
       <>
         {boards.map((board) => (
-          <button onClick={() => setSelectedboard(board)}>{board.name}</button>
+          <button key={board.id} onClick={() => setSelectedboard(board)}>
+            {board.name}
+          </button>
         ))}
       </>
     );
@@ -42,15 +66,7 @@ function App() {
 
   if (boards.length === 0) return <p>loading...</p>;
 
-  const board = selectedBoard;
-
-  const columns = board.columns.map((column) => column);
-
-  const column = columns.map((column) => column.name);
-
-  const todos = columns[0].tasks;
-  const doings = columns[1].tasks;
-  const dones = columns[2].tasks;
+  const columns = selectedBoard.columns || [];
 
   return (
     <>
@@ -59,7 +75,7 @@ function App() {
       <div className="container">
         <div className="sidebar">
           <div className="sidebar__boards_list">
-          <p className="sidebar__list_info">ALL BOARDS ({boards.length})</p>
+            <p className="sidebar__list_info">ALL BOARDS ({boards.length})</p>
             {boards.map((board) => (
               <button
                 className="sidebar__board_list_item"
@@ -76,23 +92,21 @@ function App() {
         </div>
 
         <div className="board">
+          {columns.map((col) => (
+            <div className="board__element" key={col.id || col.name}>
+              <h4>
+                {col.name} {col.tasks ? col.tasks.length : 0}
+              </h4>
+              {col.tasks &&
+                col.tasks.map((task) => <p key={task.id}>{task.title}</p>)}
+            </div>
+          ))}
+
           <div className="board__element">
-            <h4>todo: {todos.length}</h4>
-            {todos.map((todo) => (
-              <p>{todo.title}</p>
-            ))}
-          </div>
-          <div className="board__element">
-            <h4>doing: {doings.length}</h4>
-            {doings.map((doing) => (
-              <p>{doing.title}</p>
-            ))}
-          </div>
-          <div className="board__element">
-            <h4>done: {dones.length}</h4>
-            {dones.map((done) => (
-              <p>{done.title}</p>
-            ))}
+            <form action="submit">
+              <input onChange={handleColumnChange}></input>
+              <Button text="+ Add New Column"></Button>
+            </form>
           </div>
         </div>
       </div>

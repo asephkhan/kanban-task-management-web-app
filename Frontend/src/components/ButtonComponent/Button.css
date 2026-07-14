@@ -1,0 +1,15 @@
+.button__container {
+    width: 200px;
+}
+
+
+.button {
+    background-color: var(--color-purple-heavy);
+    color: var(--color-white);
+    border: var(--color-purple-heavy);
+    border-radius: 20px;
+    width: 100%;
+    padding: 10px
+    
+}
+
