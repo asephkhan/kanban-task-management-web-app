@@ -25,16 +25,23 @@ function App() {
 
   const addColumn = (e, boardId) => {
     e.preventDefault();
-
     const existingBoard = boards.find((board) => board.id === boardId);
 
     const updatedBoard = {
       name: existingBoard.name,
       id: existingBoard.id,
-      columns: [{ name: newColumn, tasks: [] }],
+      columns: [
+        ...(existingBoard.columns || []),
+        { name: newColumn, tasks: [] },
+      ],
     };
 
-    axios.put(`http://localhost:3001/boards/${existingBoard.id}`, updatedBoard);
+    axios
+      .put(`http://localhost:3001/boards/${existingBoard.id}`, updatedBoard)
+      .then((response)=> setSelectedboard(response.data)  /* console.log('response data', response.data) */ );
+      
+     
+      
   };
 
   const handleBoardChange = (e) => {
@@ -90,7 +97,7 @@ function App() {
 
         <div className="board">
           {columns.map((col) => (
-            <div className="board__element" key={col.id || col.name}>
+            <div className="board__element" key={col.id}>
               <h4>
                 {col.name} {col.tasks ? col.tasks.length : 0}
               </h4>
