@@ -8,7 +8,9 @@ function App() {
   const [boards, setBoards] = useState([]);
   const [newBoard, setNewBoard] = useState("a new board");
   const [selectedBoard, setSelectedboard] = useState(null);
-  const [newColumn, setNewColumn] = useState("a new column");
+  const [newColumn, setNewColumn] = useState("new");
+
+  console.log(newColumn);
 
   const addBoard = (e) => {
     e.preventDefault();
@@ -22,28 +24,21 @@ function App() {
   };
 
   const addColumn = (e, boardId) => {
-    //    e.preventDefault()
-    const currentBoard = boards.find((board) => board.id === boardId);
+    e.preventDefault();
 
-    const columnObj = {
-      name: newColumn,
+    const existingBoard = boards.find((board) => board.id === boardId);
+
+    const updatedBoard = {
+      name: existingBoard.name,
+      id: existingBoard.id,
+      columns: [{ name: newColumn, tasks: [] }],
     };
 
-    const updatedColumns = [...currentBoard.columns, columnObj];
-
-    axios
-      .patch(`http://localhost:3001/boards/${boardId}`, {
-        columns: updatedColumns,
-      })
-      .then(response);
+    axios.put(`http://localhost:3001/boards/${existingBoard.id}`, updatedBoard);
   };
 
   const handleBoardChange = (e) => {
     setNewBoard(e.target.value);
-  };
-
-  const handleColumnChange = (e) => {
-    setNewColumn(e.target.value);
   };
 
   useEffect(() => {
@@ -75,7 +70,9 @@ function App() {
       <div className="container">
         <div className="sidebar">
           <div className="sidebar__boards_list">
-            <p className="sidebar__list_info">ALL BOARDS ({boards.length})</p>
+            <p key={boards.id} className="sidebar__list_info">
+              ALL BOARDS ({boards.length})
+            </p>
             {boards.map((board) => (
               <button
                 className="sidebar__board_list_item"
@@ -103,8 +100,14 @@ function App() {
           ))}
 
           <div className="board__element">
-            <form action="submit">
-              <input onChange={handleColumnChange}></input>
+            <form
+              onSubmit={(e) => addColumn(e, selectedBoard.id)}
+              action="submit"
+            >
+              <input
+                value={newColumn}
+                onChange={(e) => setNewColumn(e.target.value)}
+              ></input>
               <Button text="+ Add New Column"></Button>
             </form>
           </div>
