@@ -38,10 +38,10 @@ function App() {
 
     axios
       .put(`http://localhost:3001/boards/${existingBoard.id}`, updatedBoard)
-      .then((response)=> setSelectedboard(response.data)  /* console.log('response data', response.data) */ );
-      
-     
-      
+      .then((response) => {
+        setSelectedboard(response.data);
+        setNewColumn("new column");
+      });
   };
 
   const handleBoardChange = (e) => {
