@@ -1,11 +1,11 @@
 import './Button.css'
 
-const Button = ({text}) => {
+const Button = ({text, onClick}) => {
 
     
     return (
         <div className='button__container'>
-            <button type='submit' className="button" onClick={() => console.log("clicked")}>{text}</button>
+            <button  className="button" onClick= {onClick}>{text}</button>
         </div>
     )
 }

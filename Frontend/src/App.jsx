@@ -9,8 +9,9 @@ function App() {
   const [newBoard, setNewBoard] = useState("a new board");
   const [selectedBoard, setSelectedboard] = useState(null);
   const [newColumn, setNewColumn] = useState("new");
+  const [isAddingBoard, setIsAddingBoard] = useState(false)
+  const [isAddingColumn, setIsAddingColumn] = useState(false)
 
-  console.log(newColumn);
 
   const addBoard = (e) => {
     e.preventDefault();
@@ -21,6 +22,7 @@ function App() {
     axios.post("http://localhost:3001/boards", boardObj).then((response) => {
       setBoards([...boards, response.data]);
     });
+    setIsAddingBoard(false)
   };
 
   const addColumn = (e, boardId) => {
@@ -42,6 +44,7 @@ function App() {
         setSelectedboard(response.data);
         setNewColumn("new column");
       });
+    setIsAddingColumn(false)
   };
 
   const handleBoardChange = (e) => {
@@ -88,10 +91,17 @@ function App() {
                 {board.name}
               </button>
             ))}
-            <form onSubmit={addBoard}>
+
+            {!isAddingBoard && (
+              <button onClick={() => setIsAddingBoard(true)}>create new board</button>
+            )}
+            {isAddingBoard && (
+                      <form onSubmit={addBoard}>
               <input value={newBoard} onChange={handleBoardChange} />
-              <button type="submit">create board</button>
+              <button  type="submit">create board</button>
             </form>
+            )}
+  
           </div>
         </div>
 
@@ -106,7 +116,12 @@ function App() {
             </div>
           ))}
 
+          {!isAddingColumn && (
+            <Button onClick={()=> setIsAddingColumn(true)} text={"new column"} />
+          )}
+          
           <div className="board__element">
+            {isAddingColumn && (
             <form
               onSubmit={(e) => addColumn(e, selectedBoard.id)}
               action="submit"
@@ -115,9 +130,14 @@ function App() {
                 value={newColumn}
                 onChange={(e) => setNewColumn(e.target.value)}
               ></input>
-              <Button text="+ Add New Column"></Button>
+              <button type="onSubmit" >add column</button>
+              
             </form>
+             
+             )}
           </div>
+         
+
         </div>
       </div>
     </>
