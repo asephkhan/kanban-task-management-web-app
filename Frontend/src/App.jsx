@@ -9,9 +9,9 @@ function App() {
   const [newBoard, setNewBoard] = useState("a new board");
   const [selectedBoard, setSelectedboard] = useState(null);
   const [newColumn, setNewColumn] = useState("new");
-  const [isAddingBoard, setIsAddingBoard] = useState(false)
-  const [isAddingColumn, setIsAddingColumn] = useState(false)
-
+  const [isAddingBoard, setIsAddingBoard] = useState(false);
+  const [isAddingColumn, setIsAddingColumn] = useState(false);
+  const [viewtask, setViewtask] = useState(null);
 
   const addBoard = (e) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ function App() {
     axios.post("http://localhost:3001/boards", boardObj).then((response) => {
       setBoards([...boards, response.data]);
     });
-    setIsAddingBoard(false)
+    setIsAddingBoard(false);
   };
 
   const addColumn = (e, boardId) => {
@@ -44,7 +44,7 @@ function App() {
         setSelectedboard(response.data);
         setNewColumn("new column");
       });
-    setIsAddingColumn(false)
+    setIsAddingColumn(false);
   };
 
   const handleBoardChange = (e) => {
@@ -93,51 +93,75 @@ function App() {
             ))}
 
             {!isAddingBoard && (
-              <button onClick={() => setIsAddingBoard(true)}>create new board</button>
+              <button onClick={() => setIsAddingBoard(true)}>
+                create new board
+              </button>
             )}
             {isAddingBoard && (
-                      <form onSubmit={addBoard}>
-              <input value={newBoard} onChange={handleBoardChange} />
-              <button  type="submit">create board</button>
-            </form>
+              <form onSubmit={addBoard}>
+                <input value={newBoard} onChange={handleBoardChange} />
+                <button type="submit">create board</button>
+              </form>
             )}
-  
           </div>
         </div>
 
         <div className="board">
           {columns.map((col) => (
+            <>
             <div className="board__element" key={col.id}>
               <h4>
                 {col.name} {col.tasks ? col.tasks.length : 0}
               </h4>
               {col.tasks &&
-                col.tasks.map((task) => <p key={task.id}>{task.title}</p>)}
+                col.tasks.map((task) => (
+                  <button
+                    onClick={() => {
+                      setViewtask(task);
+                    }}
+                    key={task.id}
+                  >
+                    {task.title}
+                  </button>
+                ))}
             </div>
+            <div>
+                {viewtask &&
+                  viewtask.map((task) => {
+                    return (
+                      <div key={task.id}>
+                        <h3>{task.title} </h3>
+                        <p>{task.description}</p>
+{/*                         <p>{task.subtasks ? task.subtasks : []}</p>
+                        <p>{task.status}</p> */}
+                      </div>
+                    );
+                  })}
+            </div>
+            </>
           ))}
 
           {!isAddingColumn && (
-            <Button onClick={()=> setIsAddingColumn(true)} text={"new column"} />
+            <Button
+              onClick={() => setIsAddingColumn(true)}
+              text={"new column"}
+            />
           )}
-          
+
           <div className="board__element">
             {isAddingColumn && (
-            <form
-              onSubmit={(e) => addColumn(e, selectedBoard.id)}
-              action="submit"
-            >
-              <input
-                value={newColumn}
-                onChange={(e) => setNewColumn(e.target.value)}
-              ></input>
-              <button type="onSubmit" >add column</button>
-              
-            </form>
-             
-             )}
+              <form
+                onSubmit={(e) => addColumn(e, selectedBoard.id)}
+                action="submit"
+              >
+                <input
+                  value={newColumn}
+                  onChange={(e) => setNewColumn(e.target.value)}
+                ></input>
+                <button type="onSubmit">add column</button>
+              </form>
+            )}
           </div>
-         
-
         </div>
       </div>
     </>
