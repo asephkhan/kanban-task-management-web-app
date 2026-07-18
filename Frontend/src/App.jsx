@@ -3,22 +3,20 @@ import "./App.css";
 import axios from "axios";
 import logo from "./assets/logo-dark.svg";
 import Button from "./components/ButtonComponent/Button";
+import TaskCardView from "./components/TaskCardView/TaskCardView";
+import AddBoardForm from "./components/AddBoardForm/AddBoardForm";
 
 function App() {
   const [boards, setBoards] = useState([]);
-  const [newBoard, setNewBoard] = useState("a new board");
   const [selectedBoard, setSelectedboard] = useState(null);
   const [newColumn, setNewColumn] = useState("new");
   const [isAddingBoard, setIsAddingBoard] = useState(false);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
-  const [viewtask, setViewtask] = useState(null);
+  const [viewtask, setViewtask] = useState(null)
 
-  const addBoard = (e) => {
-    e.preventDefault();
-    const boardObj = {
-      name: newBoard,
-    };
-
+  const addBoard = (name) => {
+    const boardObj = { name }
+    
     axios.post("http://localhost:3001/boards", boardObj).then((response) => {
       setBoards([...boards, response.data]);
     });
@@ -47,9 +45,7 @@ function App() {
     setIsAddingColumn(false);
   };
 
-  const handleBoardChange = (e) => {
-    setNewBoard(e.target.value);
-  };
+
 
   useEffect(() => {
     axios.get("http://localhost:3001/boards").then((response) => {
@@ -98,10 +94,7 @@ function App() {
               </button>
             )}
             {isAddingBoard && (
-              <form onSubmit={addBoard}>
-                <input value={newBoard} onChange={handleBoardChange} />
-                <button type="submit">create board</button>
-              </form>
+              <AddBoardForm onAddBoard={addBoard} />
             )}
           </div>
         </div>
@@ -115,28 +108,18 @@ function App() {
               </h4>
               {col.tasks &&
                 col.tasks.map((task) => (
-                  <button
-                    onClick={() => {
+                  <p
+                    onClick={(e) => {
                       setViewtask(task);
                     }}
                     key={task.id}
                   >
+{/*                   {viewtask && (
+                    <TaskCardView task={task} />
+                  )} */}
                     {task.title}
-                  </button>
+                  </p>
                 ))}
-            </div>
-            <div>
-                {viewtask &&
-                  viewtask.map((task) => {
-                    return (
-                      <div key={task.id}>
-                        <h3>{task.title} </h3>
-                        <p>{task.description}</p>
-{/*                         <p>{task.subtasks ? task.subtasks : []}</p>
-                        <p>{task.status}</p> */}
-                      </div>
-                    );
-                  })}
             </div>
             </>
           ))}
