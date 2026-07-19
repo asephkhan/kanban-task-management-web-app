@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const AddBoardForm = ({ onAddBoard }) => {
-  const [name, setName] = useState("name");
+  const [name, setName] = useState("");
 
   const handleBoardChange = (e) => {
     setNewBoard(e.target.value);
@@ -15,8 +15,10 @@ const AddBoardForm = ({ onAddBoard }) => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input value={name} onChange={handleBoardChange} />
-        <button type="submit">create board</button>
+        <label>Name</label>
+        <input value={name} placeholder="e.g Web Design" onChange={handleBoardChange} />
+        <label>Columns</label>
+        <button type="submit">Create new board</button>
       </form>
     </>
   );

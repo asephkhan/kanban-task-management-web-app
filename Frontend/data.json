@@ -461,7 +461,13 @@
     },
     {
       "name": "name",
-      "id": "xYn_-INZGb0"
+      "id": "xYn_-INZGb0",
+      "columns": [
+        {
+          "name": "new",
+          "tasks": []
+        }
+      ]
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

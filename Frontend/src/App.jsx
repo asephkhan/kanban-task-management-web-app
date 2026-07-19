@@ -5,6 +5,7 @@ import logo from "./assets/logo-dark.svg";
 import Button from "./components/ButtonComponent/Button";
 import TaskCardView from "./components/TaskCardView/TaskCardView";
 import AddBoardForm from "./components/AddBoardForm/AddBoardForm";
+import AddColumnForm from "./components/AddColumnForm/AddColumnForm";
 
 function App() {
   const [boards, setBoards] = useState([]);
@@ -12,19 +13,18 @@ function App() {
   const [newColumn, setNewColumn] = useState("new");
   const [isAddingBoard, setIsAddingBoard] = useState(false);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
-  const [viewtask, setViewtask] = useState(null)
+  const [viewtask, setViewtask] = useState(null);
 
   const addBoard = (name) => {
-    const boardObj = { name }
-    
+    const boardObj = { name };
+
     axios.post("http://localhost:3001/boards", boardObj).then((response) => {
       setBoards([...boards, response.data]);
     });
     setIsAddingBoard(false);
   };
 
-  const addColumn = (e, boardId) => {
-    e.preventDefault();
+  const addColumn = (boardId) => {
     const existingBoard = boards.find((board) => board.id === boardId);
 
     const updatedBoard = {
@@ -44,8 +44,6 @@ function App() {
       });
     setIsAddingColumn(false);
   };
-
-
 
   useEffect(() => {
     axios.get("http://localhost:3001/boards").then((response) => {
@@ -93,34 +91,29 @@ function App() {
                 create new board
               </button>
             )}
-            {isAddingBoard && (
-              <AddBoardForm onAddBoard={addBoard} />
-            )}
+            {isAddingBoard && <AddBoardForm onAddBoard={addBoard} />}
           </div>
         </div>
 
         <div className="board">
           {columns.map((col) => (
             <>
-            <div className="board__element" key={col.id}>
-              <h4>
-                {col.name} {col.tasks ? col.tasks.length : 0}
-              </h4>
-              {col.tasks &&
-                col.tasks.map((task) => (
-                  <p
-                    onClick={(e) => {
-                      setViewtask(task);
-                    }}
-                    key={task.id}
-                  >
-{/*                   {viewtask && (
-                    <TaskCardView task={task} />
-                  )} */}
-                    {task.title}
-                  </p>
-                ))}
-            </div>
+              <div className="board__element" key={col.id}>
+                <h4>
+                  {col.name} {col.tasks ? col.tasks.length : 0}
+                </h4>
+                {col.tasks &&
+                  col.tasks.map((task) => (
+                    <p
+                      onClick={(e) => {
+                        setViewtask(task);
+                      }}
+                      key={task.id}
+                    >
+                      {task.title}
+                    </p>
+                  ))}
+              </div>
             </>
           ))}
 
@@ -132,18 +125,7 @@ function App() {
           )}
 
           <div className="board__element">
-            {isAddingColumn && (
-              <form
-                onSubmit={(e) => addColumn(e, selectedBoard.id)}
-                action="submit"
-              >
-                <input
-                  value={newColumn}
-                  onChange={(e) => setNewColumn(e.target.value)}
-                ></input>
-                <button type="onSubmit">add column</button>
-              </form>
-            )}
+            {isAddingColumn && <AddColumnForm selectedBoard={selectedBoard} onAddColumn={addColumn} />}
           </div>
         </div>
       </div>
