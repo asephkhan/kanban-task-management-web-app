@@ -1,10 +1,12 @@
 import { useState } from "react";
+import AddColumnForm from "../AddColumnForm/AddColumnForm";
+//import Button from "../ButtonComponent/Button";
 
 const AddBoardForm = ({ onAddBoard }) => {
   const [name, setName] = useState("");
 
   const handleBoardChange = (e) => {
-    setNewBoard(e.target.value);
+    setName(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -18,6 +20,8 @@ const AddBoardForm = ({ onAddBoard }) => {
         <label>Name</label>
         <input value={name} placeholder="e.g Web Design" onChange={handleBoardChange} />
         <label>Columns</label>
+        <AddColumnForm />
+        {/* <Button text='create new column' /> */}
         <button type="submit">Create new board</button>
       </form>
     </>

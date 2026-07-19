@@ -4,9 +4,8 @@ const AddColumnForm = ({ onAddColumn, selectedBoard }) => {
   const [newColumn, setNewColumn] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
- //   setNewColumn(e.target.value)
-    onAddColumn(selectedBoard.id)
-    setNewColumn("")
+    onAddColumn(selectedBoard.id);
+    setNewColumn("");
   };
   return (
     <>
