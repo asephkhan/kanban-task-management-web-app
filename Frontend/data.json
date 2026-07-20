@@ -438,20 +438,6 @@
       ]
     },
     {
-      "name": "",
-      "columns": [
-        {
-          "name": "Todo",
-          "tasks": []
-        },
-        {
-          "name": "Doing",
-          "tasks": []
-        }
-      ],
-      "id": "UB1VdKLdCnM"
-    },
-    {
       "name": "web design",
       "columns": [
         {
@@ -464,6 +450,86 @@
         }
       ],
       "id": "7eWM1DRA_EY"
+    },
+    {
+      "name": "makawa",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        }
+      ],
+      "id": "DTa52AE3YUg"
+    },
+    {
+      "name": "",
+      "columns": [
+        {
+          "tasks": []
+        },
+        {
+          "tasks": []
+        }
+      ],
+      "id": "sJJgF8usUSo"
+    },
+    {
+      "name": "",
+      "columns": [
+        {
+          "tasks": []
+        },
+        {
+          "tasks": []
+        }
+      ],
+      "id": "eKVDUspZaXM"
+    },
+    {
+      "name": "",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        }
+      ],
+      "id": "Xy52MAQ8g10"
+    },
+    {
+      "name": "da sa ghul de",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        }
+      ],
+      "id": "fbaNXy0ay4U"
+    },
+    {
+      "name": "khafa shaway yam",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        }
+      ],
+      "id": "_VvowW2AFgI"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

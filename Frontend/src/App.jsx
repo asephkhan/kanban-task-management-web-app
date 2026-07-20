@@ -14,26 +14,23 @@ function App() {
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [viewtask, setViewtask] = useState(null);
 
-  const addBoard = (name, todo, doing ) => {
-    const boardObj = { 
+  const addBoard = (name, columns) => {
+    const boardObj = {
       name: name,
-      columns: [
-        {name: todo,
-          tasks: []          
-        },
-        {name: doing,
-          tasks: []
-        }
-      ] };
+      columns: columns.map((col) => ({
+        name: col.name,
+        tasks: [],
+      })),
+    };
 
     axios.post("http://localhost:3001/boards", boardObj).then((response) => {
       setBoards([...boards, response.data]);
+      setSelectedboard(response.data);
     });
     setIsAddingBoard(false);
   };
 
   const addColumn = (boardId, newColumn) => {
-  
     const existingBoard = boards.find((board) => board.id === boardId);
 
     const updatedBoard = {
@@ -100,7 +97,9 @@ function App() {
                 create new board
               </button>
             )}
-            {isAddingBoard && <AddBoardForm onAddBoard={addBoard} onAddColumn={addColumn} />}
+            {isAddingBoard && (
+              <AddBoardForm onAddBoard={addBoard} onAddColumn={addColumn} />
+            )}
           </div>
         </div>
 
@@ -134,7 +133,12 @@ function App() {
           )}
 
           <div className="board__element">
-            {isAddingColumn && <AddColumnForm selectedBoard={selectedBoard} onAddColumn={addColumn} />}
+            {isAddingColumn && (
+              <AddColumnForm
+                selectedBoard={selectedBoard}
+                onAddColumn={addColumn}
+              />
+            )}
           </div>
         </div>
       </div>
