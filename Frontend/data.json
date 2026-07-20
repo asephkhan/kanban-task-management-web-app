@@ -430,39 +430,7 @@
         {
           "name": "hello",
           "tasks": []
-        }
-      ]
-    },
-    {
-      "name": "a new board",
-      "id": "KPWVRdvg824",
-      "columns": [
-        {
-          "name": "new",
-          "tasks": []
         },
-        {
-          "name": "done",
-          "tasks": []
-        }
-      ]
-    },
-    {
-      "name": "a new board 2",
-      "id": "8MuNjALrUGA"
-    },
-    {
-      "name": "a new board 3",
-      "id": "zwB4-NZqZlk"
-    },
-    {
-      "name": "a new board 4",
-      "id": "yFI62xbDo6o"
-    },
-    {
-      "name": "name",
-      "id": "xYn_-INZGb0",
-      "columns": [
         {
           "name": "new",
           "tasks": []
@@ -471,7 +439,31 @@
     },
     {
       "name": "",
-      "id": "5PTVQJHiM5A"
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        }
+      ],
+      "id": "UB1VdKLdCnM"
+    },
+    {
+      "name": "web design",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": []
+        },
+        {
+          "name": "Doing",
+          "tasks": []
+        }
+      ],
+      "id": "7eWM1DRA_EY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -10,13 +10,21 @@ import AddColumnForm from "./components/AddColumnForm/AddColumnForm";
 function App() {
   const [boards, setBoards] = useState([]);
   const [selectedBoard, setSelectedboard] = useState(null);
-  const [newColumn, setNewColumn] = useState("new");
   const [isAddingBoard, setIsAddingBoard] = useState(false);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [viewtask, setViewtask] = useState(null);
 
-  const addBoard = (name) => {
-    const boardObj = { name };
+  const addBoard = (name, todo, doing ) => {
+    const boardObj = { 
+      name: name,
+      columns: [
+        {name: todo,
+          tasks: []          
+        },
+        {name: doing,
+          tasks: []
+        }
+      ] };
 
     axios.post("http://localhost:3001/boards", boardObj).then((response) => {
       setBoards([...boards, response.data]);
@@ -24,7 +32,8 @@ function App() {
     setIsAddingBoard(false);
   };
 
-  const addColumn = (boardId) => {
+  const addColumn = (boardId, newColumn) => {
+  
     const existingBoard = boards.find((board) => board.id === boardId);
 
     const updatedBoard = {
@@ -91,7 +100,7 @@ function App() {
                 create new board
               </button>
             )}
-            {isAddingBoard && <AddBoardForm onAddBoard={addBoard} />}
+            {isAddingBoard && <AddBoardForm onAddBoard={addBoard} onAddColumn={addColumn} />}
           </div>
         </div>
 
